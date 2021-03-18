@@ -12,15 +12,14 @@ export const startLoginEmailPassword = (email, password) => {
         dispatch( startLoading() );
         
         
-        firebase.auth().signInWithEmailAndPassword( email, password )
+       return firebase.auth().signInWithEmailAndPassword( email, password )  //agregamos este "return" para que meustre bien las pruebas en startLoginEmailPassword-- no afecta en nada
             .then( ({ user }) => {
                 dispatch(login( user.uid, user.displayName ));
 
                 dispatch( finishLoading() );
             })
             .catch( e => {
-                console.log(e);
-                dispatch( finishLoading() );
+                console.log(e); 
                 Swal.fire('Error', e.message, 'error');
             })
 

@@ -17,10 +17,18 @@ export const startNewNote = () => {
             date: new Date().getTime()
         }
 
-        const doc = await db.collection(`${ uid }/journal/notes`).add( newNote );
+        //cada interaccion con la bd en la nube debe estar dentro de un try catch, ya que puede suceder un error
+        try{
+            const doc = await db.collection(`${ uid }/journal/notes`).add( newNote );
+    
+            dispatch( activeNote( doc.id, newNote ) );
+            dispatch( addNewNote( doc.id, newNote ) );
+            
+        }catch(error){
+            console.log(error) //muestra el error
 
-        dispatch( activeNote( doc.id, newNote ) );
-        dispatch( addNewNote( doc.id, newNote ) );
+        }
+
 
     }
 }
